@@ -62,6 +62,10 @@ func (su *sitemapURL) validate() error {
 				break
 			}
 		}
+		if key == "xhtml:link" {
+			invalid = false
+			break
+		}
 		if invalid {
 			break
 		}
@@ -99,6 +103,10 @@ func (su *sitemapURL) XML() []byte {
 	if _, ok := SetBuilderElementValue(url, su.data, "priority"); !ok {
 		priority := url.CreateElement("priority")
 		priority.SetText("0.5")
+	}
+	if values, ok := su.data["xhtml:link"]; ok {
+		su.data["xhtml:link"] = values
+		SetBuilderElementValue(url, su.data, "xhtml:link")
 	}
 	SetBuilderElementValue(url, su.data, "expires")
 	SetBuilderElementValue(url, su.data, "mobile")
